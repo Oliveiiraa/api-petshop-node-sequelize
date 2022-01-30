@@ -11,12 +11,16 @@ router.get('/api/fornecedores', async (req, res) => {
 });
 
 router.post('/api/fornecedores', async (req, res) => {
-  const dados = req.body;
-  const fornecedor = new Fornecedor(dados);
+  try {
+    const dados = req.body;
+    const fornecedor = new Fornecedor(dados);
 
-  await fornecedor.criar();
+    await fornecedor.criar();
 
-  return res.send(JSON.stringify(fornecedor));
+    return res.send(JSON.stringify(fornecedor));
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
 })
 
 router.get('/api/fornecedores/:id', async (req, res) => {

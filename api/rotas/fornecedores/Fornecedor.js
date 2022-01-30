@@ -12,6 +12,8 @@ class Fornecedor {
   }
 
   async criar() {
+    this.validar();
+
     const resultado = await table.inserir({
       empresa: this.empresa,
       email: this.email,
@@ -57,6 +59,18 @@ class Fornecedor {
 
   async delete() {
     return table.delete(this.id)
+  }
+
+  validar() {
+    const campos = ['empresa', 'email', 'categoria'];
+
+    campos.forEach(campo => {
+      const valor = this[campo];
+
+      if (typeof valor !== 'string' || valor.length === 0) {
+        throw new Error(`Campo ${campo} é obrigatório`);
+      }
+    })
   }
 }
 
