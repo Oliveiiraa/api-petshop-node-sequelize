@@ -32,7 +32,7 @@ router.get('/api/fornecedores/:id', async (req, res) => {
 
     return res.status(200).send(JSON.stringify(fornecedor));
   } catch (error) {
-    return res.status(400).send(error.message);
+    return res.status(404).send(error.message);
   }
 })
 
@@ -61,7 +61,7 @@ router.delete('/api/fornecedores/:id', async (req, res) => {
 
     res.status(204).end();
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(404).send(err.message);
   }
 })
 
