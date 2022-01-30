@@ -34,6 +34,26 @@ class Fornecedor {
     this.dataAtualizacao = resultado.dataAtualizacao;
     this.versao = resultado.versao;
   }
+
+  async atualizar() {
+    await table.unique(this.id);
+    const campos = ['empresa', 'email', 'categoria'];
+    const dadosParaAtualizar = {};
+
+    campos.forEach(campo => {
+      const valor = this[campo];
+
+      if (typeof valor === 'string' && valor.length > 0) {
+        dadosParaAtualizar[campo] = valor;
+      }
+    })
+
+    if (Object.keys(dadosParaAtualizar).length === 0) {
+      throw new Error('Nenhum dado para atualizar');
+    }
+
+    await table.update(this.id, dadosParaAtualizar);
+  }
 }
 
 module.exports = Fornecedor;

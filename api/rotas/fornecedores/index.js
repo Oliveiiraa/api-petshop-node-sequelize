@@ -32,4 +32,18 @@ router.get('/api/fornecedores/:id', async (req, res) => {
   }
 })
 
+router.put('/api/fornecedores/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const dadosRecebidos = req.body;
+    const dados = Object.assign({}, dadosRecebidos, { id: id });
+
+    const fornecedor = new Fornecedor(dados);
+    await fornecedor.atualizar();
+    res.end();
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+})
+
 module.exports = router;
