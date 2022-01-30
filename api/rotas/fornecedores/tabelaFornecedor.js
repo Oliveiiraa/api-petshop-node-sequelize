@@ -20,5 +20,9 @@ module.exports = {
 
   async update(id, dados) {
     return model.update(dados, { where: { id: id } });
+  },
+
+  async delete(id) {
+    return model.destroy({ where: { id: id } });
   }
 }

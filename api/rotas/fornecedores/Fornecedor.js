@@ -54,6 +54,10 @@ class Fornecedor {
 
     await table.update(this.id, dadosParaAtualizar);
   }
+
+  async delete() {
+    return table.delete(this.id)
+  }
 }
 
 module.exports = Fornecedor;
