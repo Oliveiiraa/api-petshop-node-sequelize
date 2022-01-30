@@ -5,7 +5,7 @@ const Fornecedor = require('./Fornecedor');
 router.get('/api/fornecedores', async (req, res) => {
   const results = await TabelaFornecedor.listar();
 
-  res.send(
+  res.status(200).send(
     JSON.stringify(results)
   );
 });
@@ -17,7 +17,7 @@ router.post('/api/fornecedores', async (req, res) => {
 
     await fornecedor.criar();
 
-    return res.send(JSON.stringify(fornecedor));
+    return res.status(201).send(JSON.stringify(fornecedor));
   } catch (err) {
     return res.status(400).send(err.message);
   }
@@ -30,7 +30,7 @@ router.get('/api/fornecedores/:id', async (req, res) => {
 
     await fornecedor.carregar();
 
-    return res.send(JSON.stringify(fornecedor));
+    return res.status(200).send(JSON.stringify(fornecedor));
   } catch (error) {
     return res.status(400).send(error.message);
   }
@@ -44,7 +44,8 @@ router.put('/api/fornecedores/:id', async (req, res) => {
 
     const fornecedor = new Fornecedor(dados);
     await fornecedor.atualizar();
-    res.end();
+
+    res.status(204).end();
   } catch (err) {
     res.status(400).send(err.message);
   }
@@ -57,7 +58,8 @@ router.delete('/api/fornecedores/:id', async (req, res) => {
 
     await fornecedor.carregar();
     await fornecedor.delete();
-    res.end();
+
+    res.status(204).end();
   } catch (err) {
     res.status(400).send(err.message);
   }
