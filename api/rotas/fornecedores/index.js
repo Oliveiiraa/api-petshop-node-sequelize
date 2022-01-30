@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const TabelaFornecedor = require('./tabelaFornecedor');
 const Fornecedor = require('./Fornecedor');
-const NaoEncontrado = require('../../erros/NaoEncontrado');
 
 router.get('/api/fornecedores', async (req, res) => {
   const results = await TabelaFornecedor.listar();
@@ -11,7 +10,7 @@ router.get('/api/fornecedores', async (req, res) => {
   );
 });
 
-router.post('/api/fornecedores', async (req, res) => {
+router.post('/api/fornecedores', async (req, res, next) => {
   try {
     const dados = req.body;
     const fornecedor = new Fornecedor(dados);
@@ -20,7 +19,7 @@ router.post('/api/fornecedores', async (req, res) => {
 
     return res.status(201).send(JSON.stringify(fornecedor));
   } catch (err) {
-    return res.status(400).send(err.message);
+    next(err);
   }
 })
 

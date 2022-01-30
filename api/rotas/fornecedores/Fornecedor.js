@@ -1,5 +1,5 @@
 const table = require('./tabelaFornecedor');
-
+const CampoInvalido = require('../../erros/CampoInvalido');
 class Fornecedor {
   constructor({ id, empresa, email, categoria, dataCriacao, dataAtualizacao, versao }) {
     this.id = id
@@ -68,7 +68,7 @@ class Fornecedor {
       const valor = this[campo];
 
       if (typeof valor !== 'string' || valor.length === 0) {
-        throw new Error(`Campo ${campo} é obrigatório`);
+        throw new CampoInvalido(campo);
       }
     })
   }
