@@ -1,4 +1,6 @@
 const model = require('./modelTableFornecedor');
+const NaoEncontrado = require('../../erros/NaoEncontrado');
+
 module.exports = {
   listar() {
     return model.findAll();
@@ -12,7 +14,7 @@ module.exports = {
     const encontrado = await model.findOne({ where: { id: id } });
 
     if (!encontrado) {
-      throw new Error('Fornecedor não encontrado');
+      throw new NaoEncontrado();
     }
 
     return encontrado;

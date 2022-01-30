@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const TabelaFornecedor = require('./tabelaFornecedor');
 const Fornecedor = require('./Fornecedor');
+const NaoEncontrado = require('../../erros/NaoEncontrado');
 
 router.get('/api/fornecedores', async (req, res) => {
   const results = await TabelaFornecedor.listar();
@@ -36,7 +37,7 @@ router.get('/api/fornecedores/:id', async (req, res) => {
   }
 })
 
-router.put('/api/fornecedores/:id', async (req, res) => {
+router.put('/api/fornecedores/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const dadosRecebidos = req.body;
@@ -47,7 +48,7 @@ router.put('/api/fornecedores/:id', async (req, res) => {
 
     res.status(204).end();
   } catch (err) {
-    res.status(400).send(err.message);
+    next(err)
   }
 })
 
