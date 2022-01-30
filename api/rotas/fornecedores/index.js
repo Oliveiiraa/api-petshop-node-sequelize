@@ -21,7 +21,7 @@ router.post('/api/fornecedores', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-})
+});
 
 router.get('/api/fornecedores/:id', async (req, res, next) => {
   try {
@@ -34,7 +34,7 @@ router.get('/api/fornecedores/:id', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-})
+});
 
 router.put('/api/fornecedores/:id', async (req, res, next) => {
   try {
@@ -49,7 +49,7 @@ router.put('/api/fornecedores/:id', async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-})
+});
 
 router.delete('/api/fornecedores/:id', async (req, res, next) => {
   try {
@@ -63,6 +63,6 @@ router.delete('/api/fornecedores/:id', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-})
+});
 
 module.exports = router;
