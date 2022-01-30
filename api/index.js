@@ -8,6 +8,7 @@ const CampoInvalido = require('./erros/CampoInvalido');
 const DadosNaoFornecidos = require('./erros/DadosNaoFornecidos');
 const ValorNaoSuportado = require('./erros/ValorNaoSuportado');
 const formatosAceitos = require('./Serializador').formatosAceitos;
+const SerializadorErro = require('./Serializador').SerializadorErro;
 
 app.use(bodyParser.json());
 
@@ -43,7 +44,10 @@ app.use((err, req, res, next) => {
     status = 406;
   }
 
-  res.status(status).json({ success: false, error: err.message });
+  const serializador = new SerializadorErro(
+    res.getHeader('Content-Type')
+  );
+  res.status(status).json(serializador.serializar({ success: false, error: err.message }));
 });
 
 app.listen(config.get("api.port"), () => { console.log('Server is running on port 3000') });
