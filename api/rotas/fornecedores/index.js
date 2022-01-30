@@ -1,42 +1,53 @@
 const router = require('express').Router();
 const TabelaFornecedor = require('./tabelaFornecedor');
 const Fornecedor = require('./Fornecedor');
+const SerializadorFornecedor = require('../../Serializador').SerializadorFornecedor;
 
-router.get('/api/fornecedores', async (req, res) => {
+router.get('/', async (req, res) => {
   const results = await TabelaFornecedor.listar();
 
+  const serializador = new SerializadorFornecedor(res.getHeader('Content-Type'));
+
   res.status(200).send(
-    JSON.stringify(results)
+    serializador.serializar(results)
   );
 });
 
-router.post('/api/fornecedores', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const dados = req.body;
     const fornecedor = new Fornecedor(dados);
 
     await fornecedor.criar();
 
-    return res.status(201).send(JSON.stringify(fornecedor));
+    const serializador = new SerializadorFornecedor(res.getHeader('Content-Type'));
+
+    return res.status(201).send(
+      serializador.serializar(fornecedor)
+    );
   } catch (err) {
     next(err);
   }
 });
 
-router.get('/api/fornecedores/:id', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const fornecedor = new Fornecedor({ id });
 
     await fornecedor.carregar();
 
-    return res.status(200).send(JSON.stringify(fornecedor));
+    const serializador = new SerializadorFornecedor(res.getHeader('Content-Type'));
+
+    return res.status(200).send(
+      serializador.serializar(fornecedor)
+    );
   } catch (err) {
     next(err);
   }
 });
 
-router.put('/api/fornecedores/:id', async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const dadosRecebidos = req.body;
@@ -51,7 +62,7 @@ router.put('/api/fornecedores/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/api/fornecedores/:id', async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const fornecedor = new Fornecedor({ id });

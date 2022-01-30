@@ -26,7 +26,7 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use(router);
+app.use('/api/fornecedores', router);
 
 app.use((err, req, res, next) => {
   let status = 500;
