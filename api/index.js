@@ -7,8 +7,25 @@ const NaoEncontrado = require('./erros/NaoEncontrado');
 const CampoInvalido = require('./erros/CampoInvalido');
 const DadosNaoFornecidos = require('./erros/DadosNaoFornecidos');
 const ValorNaoSuportado = require('./erros/ValorNaoSuportado');
+const formatosAceitos = require('./Serializador').formatosAceitos;
 
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  let formatoRequisitado = req.header('Accept');
+
+  if (formatoRequisitado === '*/*') {
+    formatoRequisitado = 'application/json';
+  }
+
+  if (formatosAceitos.indexOf(formatoRequisitado) === -1) {
+    return res.status(406).end();
+  }
+
+  res.setHeader('Content-Type', formatoRequisitado);
+  next();
+})
+
 app.use(router);
 
 app.use((err, req, res, next) => {
@@ -27,6 +44,6 @@ app.use((err, req, res, next) => {
   }
 
   res.status(status).json({ success: false, error: err.message });
-})
+});
 
 app.listen(config.get("api.port"), () => { console.log('Server is running on port 3000') });
