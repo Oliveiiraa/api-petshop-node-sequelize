@@ -23,7 +23,7 @@ router.post('/api/fornecedores', async (req, res, next) => {
   }
 })
 
-router.get('/api/fornecedores/:id', async (req, res) => {
+router.get('/api/fornecedores/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const fornecedor = new Fornecedor({ id });
@@ -31,8 +31,8 @@ router.get('/api/fornecedores/:id', async (req, res) => {
     await fornecedor.carregar();
 
     return res.status(200).send(JSON.stringify(fornecedor));
-  } catch (error) {
-    return res.status(404).send(error.message);
+  } catch (err) {
+    next(err);
   }
 })
 
@@ -51,7 +51,7 @@ router.put('/api/fornecedores/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/api/fornecedores/:id', async (req, res) => {
+router.delete('/api/fornecedores/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const fornecedor = new Fornecedor({ id });
@@ -61,7 +61,7 @@ router.delete('/api/fornecedores/:id', async (req, res) => {
 
     res.status(204).end();
   } catch (err) {
-    res.status(404).send(err.message);
+    next(err);
   }
 })
 

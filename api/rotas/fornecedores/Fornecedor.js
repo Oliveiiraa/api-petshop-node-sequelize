@@ -1,5 +1,6 @@
 const table = require('./tabelaFornecedor');
 const CampoInvalido = require('../../erros/CampoInvalido');
+const DadosNaoFornecidos = require('../../erros/DadosNaoFornecidos');
 class Fornecedor {
   constructor({ id, empresa, email, categoria, dataCriacao, dataAtualizacao, versao }) {
     this.id = id
@@ -51,7 +52,7 @@ class Fornecedor {
     })
 
     if (Object.keys(dadosParaAtualizar).length === 0) {
-      throw new Error('Nenhum dado para atualizar');
+      throw new DadosNaoFornecidos();
     }
 
     await table.update(this.id, dadosParaAtualizar);
